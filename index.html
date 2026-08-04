@@ -121,3 +121,45 @@
   </script>
 
 </head>
+
+<body>
+
+  <!-- Ambient background -->
+  <div class="bg-ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-icon"><i class="fab fa-google-play"></i></div>
+        <span>Altan Droid</span>
+      </div>
+      <nav class="topbar-nav">
+        <a href="#" class="nav-link active">Apps</a>
+        <a href="#" class="nav-link">About</a>
+        <a href="#" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="portfolio" id="portfolioContainer"></main>
+
+  <!-- Footer -->
+  <footer class="footer" id="portfolioFooter"></footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
