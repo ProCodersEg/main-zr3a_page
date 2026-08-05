@@ -5,103 +5,40 @@
 
   /* ── Remote JSON (change to your endpoint) ───────────────── */
   const DATA_URL = 'https://raw.githubusercontent.com/ProCodersEg/svwh/refs/heads/main/projects.json';
-  let portfolioData = null;
 
-  /* ── Fallback / override data (your provided JSON) ──────── */
-  const FALLBACK_DATA = {
-    developer: {
-      name:     "Altan Droid",
-      title:    "Senior Android Developer",
-      email:    "altan@android.dev",
-      avatar:   "https://i.pravatar.cc/150?img=68",
-      bio:      "Passionate Android developer crafting beautiful, performant apps with modern tech stack.",
-      location: "San Francisco, CA",
-      skills:   ["Kotlin", "Java", "Compose", "Coroutines", "Flow", "Hilt", "Room", "Firebase"],
-      social: [
-        { platform: "github",    url: "https://github.com",       icon: "fa-github"     },
-        { platform: "twitter",   url: "https://twitter.com",      icon: "fa-twitter"    },
-        { platform: "playstore", url: "https://play.google.com",  icon: "fa-google-play"}
-      ]
-    },
-    projects: [
-      {
-        id: 1,
-        icon: "https://play-lh.googleusercontent.com/3I8sTfjzaOovrH3qIYoyjzgDUSPwDO33R3KsHHYoYoutiAxwiKQHjtlf3wBnWIMgxlljwoWwmIHbmNASUiGG=w240-h480-rw",
-        name: "عصر الهامور",
-        rating: 4.7, installs: "500+",
-        desc: "Escape boredom and enter the world of Age of the Hammer — epic fishing and adventure games offering sea, combat, and challenge in an open-world masterpiece.",
-        tags: ["war", "fishing", "game", "android"],
-        year: 2025, pinned: true, trending: false,
-        actionText: "View on Google Play", actionColor: "#FF6B35", color: "#FF6B35"
-      },
-      {
-        id: 2,
-        icon: "https://img.icons8.com/color/96/wallet.png",
-        name: "Spendwise",
-        rating: 4.5, installs: "12K+",
-        desc: "Smart expense tracker with insightful charts and Material You design.",
-        tags: ["Kotlin", "Jetpack", "Room"],
-        year: 2024, pinned: false, trending: true,
-        actionText: "Show Details", actionColor: "#4ECDC4", color: "#4ECDC4"
-      },
-      {
-        id: 3,
-        icon: "https://img.icons8.com/color/96/headphones.png",
-        name: "Noise",
-        rating: 4.8, installs: "8K+",
-        desc: "Focus & ambient sounds for deep work with background playback.",
-        tags: ["Kotlin", "Compose", "Media3"],
-        year: 2025, pinned: false, trending: false,
-        actionText: "Visit App", actionColor: "#45B7D1", color: "#45B7D1"
-      },
-      {
-        id: 4,
-        icon: "https://img.icons8.com/color/96/dumbbell.png",
-        name: "RepCount",
-        rating: 4.6, installs: "3.2K+",
-        desc: "Workout companion with rest timer and DataStore persistence.",
-        tags: ["Kotlin", "Hilt", "Compose"],
-        year: 2024, pinned: false, trending: false,
-        actionText: "Open App", actionColor: "#96CEB4", color: "#96CEB4"
-      }
-    ]
-  };
+  /* ── Store projects for lookup on click ──────────────────── */
+  let PROJECTS_BY_ID = {};
 
   /* ── Fetch ───────────────────────────────────────────────── */
   async function fetchData() {
-    try {
-      const res = await fetch(DATA_URL);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (e) {
-      console.warn('Remote fetch failed, using fallback:', e.message);
-      return FALLBACK_DATA;
-    }
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
   }
 
   /* ── Build ───────────────────────────────────────────────── */
-	function build(data) {
-
-    // Save the fetched JSON so it can be used later
-    portfolioData = data;
-
+  function build(data) {
     const { developer, projects } = data;
 
+    // Index projects by id so handleProjectClick can look up the link
+    PROJECTS_BY_ID = {};
+    projects.forEach(p => { PROJECTS_BY_ID[p.id] = p; });
+
     const sorted = [...projects].sort((a, b) => {
-        if (a.pinned && !b.pinned) return -1;
-        if (!a.pinned && b.pinned) return 1;
-        return b.year - a.year;
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return b.year - a.year;
     });
 
     container.innerHTML =
-        developerSection(developer) +
-        sectionDivider() +
-        projectsSection(sorted, projects.length);
+      developerSection(developer) +
+      sectionDivider() +
+      projectsSection(sorted, projects.length);
 
     footer.innerHTML = buildFooter(projects.length);
 
     setTimeout(setupFilters, 80);
-	}
+  }
 
   /* ── Developer Section ───────────────────────────────────── */
   function developerSection(dev) {
@@ -310,28 +247,14 @@
   };
 
   /* ── Project Click ───────────────────────────────────────── */
-	window.handleProjectClick = function (id) {
-
-    if (!portfolioData || !portfolioData.projects) {
-        openModal("Error", "Projects are still loading.");
-        return;
+  window.handleProjectClick = function (id) {
+    const project = PROJECTS_BY_ID[id];
+    if (project && project.link) {
+      window.open(project.link, '_blank', 'noopener');
+    } else {
+      openModal('⚠️ No Link', `No link is set for project #${id} yet.`);
     }
-
-    const project = portfolioData.projects.find(p => p.id === id);
-
-    if (!project) {
-        openModal("Error", "Project not found.");
-        return;
-    }
-
-    if (!project.link || project.link.trim() === "") {
-        openModal("Unavailable", "This project doesn't have a link yet.");
-        return;
-    }
-
-    // Open in a new tab
-    window.open(project.link, "_blank", "noopener");
-	};
+  };
 
   /* ── Loading / Error ─────────────────────────────────────── */
   function showLoading() {
@@ -357,9 +280,13 @@
   /* ── Init ────────────────────────────────────────────────── */
   async function init() {
     showLoading();
-    const data = await fetchData();
-    if (!data) { showError('Failed to load data. Please check your connection.'); return; }
-    build(data);
+    try {
+      const data = await fetchData();
+      build(data);
+    } catch (e) {
+      console.error('Failed to load portfolio data:', e);
+      showError('Failed to load data. Please check your connection.');
+    }
   }
 
   init();
