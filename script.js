@@ -55,7 +55,7 @@
           <div class="dev-row-1">
             <h1 class="dev-name">${dev.name}</h1>
             <span class="dev-title-tag">${dev.title}</span>
-            <span class="dev-badge"><i class="fab fa-google-play"></i> Developer</span>
+            <span class="dev-badge"><i class="fab fa-google-play"></i> مبرمجين متخصصين</span>
           </div>
           <div class="dev-row-2">
             <span class="meta-item"><i class="fas fa-envelope"></i> ${dev.email}</span>
