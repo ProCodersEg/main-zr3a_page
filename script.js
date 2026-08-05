@@ -82,7 +82,7 @@
     return `
       <div class="section-divider">
         <span class="divider-icon"><i class="fab fa-google-play"></i></span>
-        Apps &amp; Games
+        تطبيقات &amp; العاب
       </div>`;
   }
 
@@ -173,8 +173,8 @@
       <div class="footer-inner">
         <div class="footer-main">
           <div class="footer-stats">
-            <div class="stat-item"><i class="fas fa-mobile-alt"></i> <span class="stat-value">${count}+</span> Apps</div>
-            <div class="stat-item"><i class="fas fa-star"></i> <span class="stat-value">4.5+</span> Avg Rating</div>
+            <div class="stat-item"><i class="fas fa-mobile-alt"></i> <span class="stat-value">${count}+</span> مشاريع</div>
+            <div class="stat-item"><i class="fas fa-star"></i> <span class="stat-value">4.5+</span> معدل التقييم</div>
           </div>
           <div class="footer-links">
             <a href="#" onclick="showPolicy('privacy');return false;">Privacy Policy</a>
