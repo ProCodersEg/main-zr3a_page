@@ -175,7 +175,6 @@
           <div class="footer-stats">
             <div class="stat-item"><i class="fas fa-mobile-alt"></i> <span class="stat-value">${count}+</span> Apps</div>
             <div class="stat-item"><i class="fas fa-star"></i> <span class="stat-value">4.5+</span> Avg Rating</div>
-            // <div class="stat-item"><i class="fas fa-download"></i> <span class="stat-value">100K+</span> Downloads</div>
           </div>
           <div class="footer-links">
             <a href="#" onclick="showPolicy('privacy');return false;">Privacy Policy</a>
@@ -187,7 +186,7 @@
         <div class="footer-bottom">
           <div class="footer-brand">
             <div class="brand-icon"><i class="fab fa-google-play"></i></div>
-            Google Play Solo Developer
+            Solo Developer's
           </div>
           <span>© 2026 Zar3a Games. All rights reserved.</span>
         </div>
