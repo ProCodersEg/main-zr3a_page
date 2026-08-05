@@ -95,9 +95,9 @@
           <span class="title-count">${total} apps</span>
         </h2>
         <div class="filter-buttons">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="trending">🔥 Trending</button>
-          <button class="filter-btn" data-filter="pinned">📌 Pinned</button>
+          <button class="filter-btn active" data-filter="all">الكل</button>
+          <button class="filter-btn" data-filter="trending">🔥 شــائع</button>
+          <button class="filter-btn" data-filter="pinned">📌 مثبــت</button>
         </div>
       </div>
       <div class="projects-grid" id="projectsGrid">
@@ -151,8 +151,8 @@
         <div class="project-card placeholder">
           <div class="placeholder-content">
             <i class="fas fa-rocket"></i>
-            <p>Coming Soon</p>
-            <small>New app in development</small>
+            <p>يــاتي قريبا</p>
+            <small>جارى تجهيز تطبيقات جديدة</small>
           </div>
         </div>`;
     }
@@ -162,8 +162,8 @@
   function badges(p) {
     if (!p.pinned && !p.trending) return '';
     return `<div class="badges">
-      ${p.pinned   ? '<span class="badge pin">📌 Pinned</span>'   : ''}
-      ${p.trending ? '<span class="badge trend">🔥 Trending</span>' : ''}
+      ${p.pinned   ? '<span class="badge pin">📌 مثبــت</span>'   : ''}
+      ${p.trending ? '<span class="badge trend">🔥 شــائع</span>' : ''}
     </div>`;
   }
 
