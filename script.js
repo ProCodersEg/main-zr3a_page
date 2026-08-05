@@ -177,10 +177,10 @@
             <div class="stat-item"><i class="fas fa-star"></i> <span class="stat-value">4.5+</span> معدل التقييم</div>
           </div>
           <div class="footer-links">
-            <a href="#" onclick="showPolicy('privacy');return false;">Privacy Policy</a>
-            <a href="#" onclick="showPolicy('terms');return false;">Terms of Service</a>
-            <a href="#" onclick="showPolicy('about');return false;">About</a>
-            <a href="#" onclick="showPolicy('contact');return false;">Contact</a>
+            <a href="#" onclick="showPolicy('privacy');return false;">sسياسة الخصوصية</a>
+            <a href="#" onclick="showPolicy('terms');return false;">شروط الاستخدام</a>
+            <a href="#" onclick="showPolicy('about');return false;">نبذه عنا</a>
+            <a href="#" onclick="showPolicy('contact');return false;">تواصل معنا</a>
           </div>
         </div>
         <div class="footer-bottom">
@@ -188,7 +188,7 @@
             <div class="brand-icon"><i class="fab fa-google-play"></i></div>
             Solo Developer's
           </div>
-          <span>© 2026 Zar3a Games. All rights reserved.</span>
+          <span>العاب زرعة @2026. جميع الحقوق محفوظة.</span>
         </div>
       </div>`;
   }
