@@ -312,7 +312,7 @@
         </div>
         <div class="footer-bottom">
           <div class="footer-brand">
-            <div class="brand-icon"><i class="fab fa-google-play"></i></div>
+            <div class="brand-icon"><i class="fa-solid fa-tree"></i></div>
             ${t('brand')}
           </div>
           <span>${t('footer.copyright')}</span>
