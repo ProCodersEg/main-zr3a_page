@@ -89,15 +89,9 @@
   const DATA_URL = 'https://raw.githubusercontent.com/ProCodersEg/svwh/refs/heads/main/projects.json';
 
   async function fetchData() {
-    try {
-      const res = await fetch('./project.json');
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch {
-      const res = await fetch(DATA_URL);
-      if (!res.ok) throw new Error('Both remote and local fetch failed');
-      return await res.json();
-    }
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
   }
 
   /* ── Theme & Lang Toggles ────────────────────────────────── */
@@ -152,7 +146,36 @@
     footer.innerHTML = buildFooter(projects.length);
     footer.style.display = 'block';
 
+    attachDynamicListeners();
     setTimeout(setupFilters, 80);
+  }
+
+  function attachDynamicListeners() {
+    document.querySelectorAll('.action-button').forEach(btn => {
+      btn.addEventListener('click', () => handleProjectClick(btn.dataset.actionId));
+    });
+
+    document.querySelectorAll('.footer-links a[data-policy]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPolicy(link.dataset.policy);
+      });
+    });
+
+    const devAvatar = document.querySelector('.dev-avatar');
+    if (devAvatar) {
+      devAvatar.addEventListener('error', function() {
+        this.style.display = 'none';
+        this.nextElementSibling.style.display = 'flex';
+      });
+    }
+
+    document.querySelectorAll('.app-icon-img').forEach(img => {
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+        this.parentElement.querySelector('.app-icon-fallback').style.display = 'block';
+      });
+    });
   }
 
   /* ── Developer Section ───────────────────────────────────── */
@@ -160,8 +183,7 @@
     return `
       <section class="developer-section">
         <div class="dev-avatar-wrapper">
-          <img src="${dev.avatar}" alt="${dev.name}" class="dev-avatar"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <img src="${dev.avatar}" alt="${dev.name}" class="dev-avatar">
           <div class="dev-avatar-fallback" style="display:none;">${dev.name.charAt(0)}</div>
           <div class="dev-verified"><i class="fas fa-check"></i></div>
         </div>
@@ -225,8 +247,7 @@
           ${badges(p)}
           <div class="app-header">
             <div class="app-icon-wrapper">
-              <img src="${p.icon}" alt="${p.name}" class="app-icon-img"
-                   onerror="this.style.display='none';this.parentElement.querySelector('.app-icon-fallback').style.display='block';">
+              <img src="${p.icon}" alt="${p.name}" class="app-icon-img">
               <i class="fas fa-mobile-screen app-icon-fallback" style="display:none;"></i>
             </div>
             <div class="app-info">
@@ -241,7 +262,7 @@
           <div class="tech-tags">${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
           <div class="card-footer">
             <span class="year"><i class="far fa-calendar-days"></i> ${p.year}</span>
-            <button class="action-button" onclick="handleProjectClick(${p.id})">
+            <button class="action-button" data-action-id="${p.id}">
               <span>${p.actionText || t('card.view')}</span>
               <div class="action-button-icon"><i class="fas fa-arrow-right"></i></div>
             </button>
@@ -283,10 +304,10 @@
             <div class="stat-item"><i class="fas fa-star"></i> <span class="stat-value">4.5+</span> ${t('footer.rating')}</div>
           </div>
           <div class="footer-links">
-            <a href="#" onclick="showPolicy('privacy');return false;">${t('footer.privacy')}</a>
-            <a href="#" onclick="showPolicy('terms');return false;">${t('footer.terms')}</a>
-            <a href="#" onclick="showPolicy('about');return false;">${t('footer.about')}</a>
-            <a href="#" onclick="showPolicy('contact');return false;">${t('footer.contact')}</a>
+            <a href="#" data-policy="privacy">${t('footer.privacy')}</a>
+            <a href="#" data-policy="terms">${t('footer.terms')}</a>
+            <a href="#" data-policy="about">${t('footer.about')}</a>
+            <a href="#" data-policy="contact">${t('footer.contact')}</a>
           </div>
         </div>
         <div class="footer-bottom">
@@ -375,11 +396,12 @@
       <div class="error-container">
         <i class="fas fa-exclamation-circle" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>
         <p>${msg || t('error')}</p>
-        <button onclick="location.reload()"
+        <button id="retryBtn"
                 style="margin-top:1rem;padding:0.6rem 1.5rem;background:var(--green);color:var(--bg);border:none;border-radius:2rem;cursor:pointer;font-weight:700;font-family:inherit;">
           <i class="fas fa-redo"></i> ${t('retry')}
         </button>
       </div>`;
+    document.getElementById('retryBtn').addEventListener('click', () => location.reload());
   }
 
   /* ── Init ────────────────────────────────────────────────── */
